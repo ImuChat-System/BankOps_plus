@@ -13,6 +13,12 @@ Ce projet démontre ma capacité à maintenir et faire évoluer des applications
 
 ---
 
+## Présentation pour Recruteur
+
+> *Je suis entrain de développer **BankOps+**, une application .NET de supervision bancaire reproduisant un outil interne de DSI, avec gestion d'incidents, monitoring de traitements, et calcul de KPIs (MTTR). Ce projet illustre ma capacité progressive à maintenir et faire évoluer des applications dans un contexte finance, avec une architecture propre, une gestion d'erreurs centralisée, et une documentation complète.*
+
+---
+
 ## Stack Technique
 
 ### Backend
@@ -209,12 +215,6 @@ BankOps_plus/
 - Badge de statut colorés
 - Filtres et recherche
 - UX claire et professionnelle
-
----
-
-## Présentation pour Recruteur
-
-> *Je suis entrain de développer **BankOps+**, une application .NET de supervision bancaire reproduisant un outil interne de DSI, avec gestion d'incidents, monitoring de traitements, et calcul de KPIs (MTTR). Ce projet illustre ma capacité progressive à maintenir et faire évoluer des applications dans un contexte finance, avec une architecture propre, une gestion d'erreurs centralisée, et une documentation complète.*
 
 ---
 
