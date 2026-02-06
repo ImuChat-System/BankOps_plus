@@ -1,4 +1,4 @@
-# BankOps+ -> Application de Supervision Bancaire
+# BankOps+ | Application de Supervision Bancaire
 
 ## Contexte
 
