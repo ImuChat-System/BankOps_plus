@@ -1,5 +1,5 @@
-using Microsoft.EntityFrameworkCore;
 using BankOpsPlus.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace BankOpsPlus.Data;
 
@@ -42,7 +42,7 @@ public class BankOpsDbContext : DbContext
             entity.HasKey(e => e.Id);
             entity.Property(e => e.Frequency).HasConversion<string>();
             entity.Property(e => e.Status).HasConversion<string>();
-            
+
             entity.HasOne(e => e.Application)
                 .WithMany(a => a.Jobs)
                 .HasForeignKey(e => e.ApplicationId)
@@ -56,22 +56,22 @@ public class BankOpsDbContext : DbContext
             entity.HasIndex(e => e.Reference).IsUnique();
             entity.Property(e => e.Severity).HasConversion<string>();
             entity.Property(e => e.Status).HasConversion<string>();
-            
+
             entity.HasOne(e => e.Application)
                 .WithMany(a => a.Incidents)
                 .HasForeignKey(e => e.ApplicationId)
                 .OnDelete(DeleteBehavior.Cascade);
-            
+
             entity.HasOne(e => e.Job)
                 .WithMany(j => j.Incidents)
                 .HasForeignKey(e => e.JobId)
                 .OnDelete(DeleteBehavior.SetNull);
-            
+
             entity.HasOne(e => e.CreatedBy)
                 .WithMany(u => u.CreatedIncidents)
                 .HasForeignKey(e => e.CreatedByUserId)
                 .OnDelete(DeleteBehavior.Restrict);
-            
+
             entity.HasOne(e => e.AssignedTo)
                 .WithMany(u => u.AssignedIncidents)
                 .HasForeignKey(e => e.AssignedToUserId)
@@ -85,7 +85,7 @@ public class BankOpsDbContext : DbContext
             entity.Property(e => e.Type).HasConversion<string>();
             entity.Property(e => e.Priority).HasConversion<string>();
             entity.Property(e => e.Status).HasConversion<string>();
-            
+
             entity.HasOne(e => e.Application)
                 .WithMany(a => a.ChangeRequests)
                 .HasForeignKey(e => e.ApplicationId)
@@ -139,7 +139,7 @@ public class BankOpsDbContext : DbContext
                 Id = 1,
                 Code = "PAY-PROD-001",
                 Name = "Payment Processing System",
-                Environment = EnvironmentType.PROD,
+                Environment = ApplicationEnvironment.PROD,
                 ResponsiblePerson = "John Doe",
                 GlobalStatus = "Active",
                 CreatedAt = DateTime.UtcNow
@@ -149,7 +149,7 @@ public class BankOpsDbContext : DbContext
                 Id = 2,
                 Code = "TRADE-PROD-002",
                 Name = "Trading Platform",
-                Environment = EnvironmentType.PROD,
+                Environment = ApplicationEnvironment.PROD,
                 ResponsiblePerson = "Jane Smith",
                 GlobalStatus = "Active",
                 CreatedAt = DateTime.UtcNow
@@ -159,7 +159,7 @@ public class BankOpsDbContext : DbContext
                 Id = 3,
                 Code = "RISK-REC-001",
                 Name = "Risk Management",
-                Environment = EnvironmentType.REC,
+                Environment = ApplicationEnvironment.REC,
                 ResponsiblePerson = "Bob Johnson",
                 GlobalStatus = "Testing",
                 CreatedAt = DateTime.UtcNow
@@ -169,7 +169,7 @@ public class BankOpsDbContext : DbContext
                 Id = 4,
                 Code = "CRM-DEV-001",
                 Name = "Customer Relationship Mgmt",
-                Environment = EnvironmentType.DEV,
+                Environment = ApplicationEnvironment.DEV,
                 ResponsiblePerson = "Alice Brown",
                 GlobalStatus = "Development",
                 CreatedAt = DateTime.UtcNow
@@ -179,7 +179,7 @@ public class BankOpsDbContext : DbContext
                 Id = 5,
                 Code = "BATCH-PROD-003",
                 Name = "Batch Processing Engine",
-                Environment = EnvironmentType.PROD,
+                Environment = ApplicationEnvironment.PROD,
                 ResponsiblePerson = "Charlie Wilson",
                 GlobalStatus = "Active",
                 CreatedAt = DateTime.UtcNow
