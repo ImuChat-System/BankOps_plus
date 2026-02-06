@@ -4,7 +4,7 @@
 }
 
 <div class="container mt-4">
-    <h1 class="mb-4">📊 Dashboard - Supervision Bancaire</h1>
+    <h1 class="mb-4">Dashboard - Supervision Bancaire</h1>
 
     <!-- KPIs Row -->
     <div class="row mb-4">
@@ -46,7 +46,7 @@
     @if (ViewBag.JobsInErrorCount > 0)
     {
         <div class="alert alert-danger" role="alert">
-            <h5><strong>⚠️ Jobs en Erreur</strong></h5>
+            <h5><strong>Jobs en Erreur</strong></h5>
             <ul class="mb-0">
                 @foreach (var job in ViewBag.JobsInError)
                 {
@@ -131,7 +131,7 @@
     <!-- Quick Actions -->
     <div class="mt-4">
         <a href="@Url.Action("Create", "Incident")" class="btn btn-success btn-lg">
-            ➕ Créer un Incident
+            Créer un Incident
         </a>
     </div>
 </div>

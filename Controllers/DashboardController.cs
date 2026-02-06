@@ -1,3 +1,4 @@
+using BankOpsPlus.Helpers;
 using BankOpsPlus.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,6 +15,12 @@ public class DashboardController : Controller
 
     public async Task<IActionResult> Index()
     {
+        // Check authentication
+        if (!HttpContext.Session.IsAuthenticated())
+        {
+            return RedirectToAction("Login", "Auth");
+        }
+
         // Get KPIs from service
         ViewBag.OpenIncidentsCount = await _dashboardService.GetOpenIncidentsCountAsync();
         ViewBag.CriticalIncidentsCount = await _dashboardService.GetCriticalIncidentsCountAsync();

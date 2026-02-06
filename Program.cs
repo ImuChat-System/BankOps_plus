@@ -15,10 +15,12 @@ builder.Services.AddDbContext<BankOpsDbContext>(options =>
 // Register Repositories
 builder.Services.AddScoped<IIncidentRepository, IncidentRepository>();
 builder.Services.AddScoped<IJobRepository, JobRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 // Register Services
 builder.Services.AddScoped<IDashboardService, DashboardService>();
 builder.Services.AddScoped<IIncidentService, IncidentService>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 // Add session support for authentication
 builder.Services.AddSession(options =>
@@ -58,6 +60,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Dashboard}/{action=Index}/{id?}");
+    pattern: "{controller=Auth}/{action=Login}/{id?}");
 
 app.Run();

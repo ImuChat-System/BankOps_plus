@@ -1,0 +1,148 @@
+@model BankOpsPlus.Models.ViewModels.LoginViewModel
+@{
+    ViewData["Title"] = "Connexion - BankOps+";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .login-container {
+            max-width: 450px;
+            width: 100%;
+            padding: 20px;
+        }
+        .login-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            padding: 40px;
+        }
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .login-header h1 {
+            color: #667eea;
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .login-header p {
+            color: #6c757d;
+            font-size: 0.95rem;
+        }
+        .form-label {
+            font-weight: 500;
+            color: #333;
+        }
+        .form-control {
+            border-radius: 8px;
+            padding: 12px;
+            border: 1px solid #ddd;
+        }
+        .form-control:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+        .btn-login {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 8px;
+            padding: 12px;
+            font-weight: 600;
+            color: white;
+            width: 100%;
+            margin-top: 20px;
+            transition: transform 0.2s;
+        }
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+        .alert {
+            border-radius: 8px;
+            border: none;
+        }
+        .demo-credentials {
+            margin-top: 30px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            font-size: 0.85rem;
+        }
+        .demo-credentials h6 {
+            color: #667eea;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        .demo-credentials code {
+            background: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: #764ba2;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <div class="login-header">
+                <h1>BankOps+</h1>
+                <p>Supervision Bancaire</p>
+            </div>
+
+            @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+            {
+                <div class="alert alert-danger" role="alert">
+                    <strong>Erreur:</strong> @Model.ErrorMessage
+                </div>
+            }
+
+            <form asp-action="Login" method="post">
+                <div class="mb-3">
+                    <label asp-for="Email" class="form-label"></label>
+                    <input asp-for="Email" class="form-control" placeholder="votre.email@bankops.local" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Password" class="form-label"></label>
+                    <input asp-for="Password" class="form-control" placeholder="••••••••" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3 form-check">
+                    <input asp-for="RememberMe" class="form-check-input" />
+                    <label asp-for="RememberMe" class="form-check-label"></label>
+                </div>
+
+                <button type="submit" class="btn btn-login">Se connecter</button>
+            </form>
+
+            <div class="demo-credentials">
+                <h6>Comptes de démonstration</h6>
+                <p class="mb-1"><strong>Admin:</strong> <code>admin@bankops.local</code> / <code>Admin123!</code></p>
+                <p class="mb-1"><strong>Support:</strong> <code>support@bankops.local</code> / <code>Support123!</code></p>
+                <p class="mb-0"><strong>ReadOnly:</strong> <code>reader@bankops.local</code> / <code>Reader123!</code></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,4 +1,5 @@
 using BankOpsPlus.Data;
+using BankOpsPlus.Helpers;
 using BankOpsPlus.Models;
 using BankOpsPlus.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -19,6 +20,12 @@ public class IncidentController : Controller
     // GET: Incident
     public async Task<IActionResult> Index(string? status, string? severity)
     {
+        // Check authentication
+        if (!HttpContext.Session.IsAuthenticated())
+        {
+            return RedirectToAction("Login", "Auth");
+        }
+
         IncidentStatus? statusEnum = null;
         IncidentSeverity? severityEnum = null;
 
