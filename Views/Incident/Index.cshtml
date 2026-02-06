@@ -1,0 +1,110 @@
+@model IEnumerable<BankOpsPlus.Models.Incident>
+@{
+    ViewData["Title"] = "Incidents";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>🚨 Gestion des Incidents</h1>
+        <a href="@Url.Action("Create")" class="btn btn-success">➕ Nouvel Incident</a>
+    </div>
+
+    <!-- Filters -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <form method="get" class="row g-3">
+                <div class="col-md-4">
+                    <label class="form-label">Statut</label>
+                    <select name="status" class="form-select">
+                        <option value="">Tous</option>
+                        <option value="Open" selected="@(ViewBag.CurrentStatus == "Open")">Open</option>
+                        <option value="InProgress" selected="@(ViewBag.CurrentStatus == "InProgress")">InProgress</option>
+                        <option value="Resolved" selected="@(ViewBag.CurrentStatus == "Resolved")">Resolved</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Gravité</label>
+                    <select name="severity" class="form-select">
+                        <option value="">Toutes</option>
+                        <option value="Low" selected="@(ViewBag.CurrentSeverity == "Low")">Low</option>
+                        <option value="Medium" selected="@(ViewBag.CurrentSeverity == "Medium")">Medium</option>
+                        <option value="Critical" selected="@(ViewBag.CurrentSeverity == "Critical")">Critical</option>
+                    </select>
+                </div>
+                <div class="col-md-4 d-flex align-items-end">
+                    <button type="submit" class="btn btn-primary">Filtrer</button>
+                    <a href="@Url.Action("Index")" class="btn btn-secondary ms-2">Réinitialiser</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Incidents Table -->
+    <div class="card">
+        <div class="card-body">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Référence</th>
+                        <th>Application</th>
+                        <th>Job</th>
+                        <th>Gravité</th>
+                        <th>Statut</th>
+                        <th>Description</th>
+                        <th>Créé le</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td><strong>@item.Reference</strong></td>
+                            <td>@item.Application.Name</td>
+                            <td>@(item.Job?.Name ?? "-")</td>
+                            <td>
+                                @if (item.Severity == BankOpsPlus.Models.IncidentSeverity.Critical)
+                                {
+                                    <span class="badge bg-danger">Critical</span>
+                                }
+                                else if (item.Severity == BankOpsPlus.Models.IncidentSeverity.Medium)
+                                {
+                                    <span class="badge bg-warning text-dark">Medium</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-info">Low</span>
+                                }
+                            </td>
+                            <td>
+                                @if (item.Status == BankOpsPlus.Models.IncidentStatus.Open)
+                                {
+                                    <span class="badge bg-warning text-dark">Open</span>
+                                }
+                                else if (item.Status == BankOpsPlus.Models.IncidentStatus.InProgress)
+                                {
+                                    <span class="badge bg-primary">InProgress</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-success">Resolved</span>
+                                }
+                            </td>
+                            <td>@item.Description.Substring(0, Math.Min(60, item.Description.Length))...</td>
+                            <td>@item.CreatedAt.ToString("dd/MM/yyyy HH:mm")</td>
+                            <td>
+                                <a href="@Url.Action("Details", new { id=item.Id })" class="btn btn-sm btn-info">Détails</a>
+                                <a href="@Url.Action("Edit", new { id=item.Id })" class="btn btn-sm btn-warning">Éditer</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            
+            @if (!Model.Any())
+            {
+                <p class="text-muted text-center py-4">Aucun incident trouvé.</p>
+            }
+        </div>
+    </div>
+</div>

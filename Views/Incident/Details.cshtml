@@ -1,0 +1,104 @@
+@model BankOpsPlus.Models.Incident
+@{
+    ViewData["Title"] = "Détails de l'Incident";
+}
+
+<div class="container mt-4">
+    <h1>🔍 Détails de l'Incident</h1>
+
+    <div class="card mt-4">
+        <div class="card-header">
+            <h4 class="mb-0">@Model.Reference</h4>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <dl class="row">
+                        <dt class="col-sm-4">Application:</dt>
+                        <dd class="col-sm-8">@Model.Application.Name</dd>
+
+                        <dt class="col-sm-4">Environnement:</dt>
+                        <dd class="col-sm-8">@Model.Application.Environment</dd>
+
+                        <dt class="col-sm-4">Job:</dt>
+                        <dd class="col-sm-8">@(Model.Job?.Name ?? "N/A")</dd>
+
+                        <dt class="col-sm-4">Gravité:</dt>
+                        <dd class="col-sm-8">
+                            @if (Model.Severity == BankOpsPlus.Models.IncidentSeverity.Critical)
+                            {
+                                <span class="badge bg-danger">Critical</span>
+                            }
+                            else if (Model.Severity == BankOpsPlus.Models.IncidentSeverity.Medium)
+                            {
+                                <span class="badge bg-warning text-dark">Medium</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-info">Low</span>
+                            }
+                        </dd>
+
+                        <dt class="col-sm-4">Statut:</dt>
+                        <dd class="col-sm-8">
+                            @if (Model.Status == BankOpsPlus.Models.IncidentStatus.Open)
+                            {
+                                <span class="badge bg-warning text-dark">Open</span>
+                            }
+                            else if (Model.Status == BankOpsPlus.Models.IncidentStatus.InProgress)
+                            {
+                                <span class="badge bg-primary">InProgress</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-success">Resolved</span>
+                            }
+                        </dd>
+                    </dl>
+                </div>
+
+                <div class="col-md-6">
+                    <dl class="row">
+                        <dt class="col-sm-4">Créé par:</dt>
+                        <dd class="col-sm-8">@Model.CreatedBy.Name</dd>
+
+                        <dt class="col-sm-4">Créé le:</dt>
+                        <dd class="col-sm-8">@Model.CreatedAt.ToString("dd/MM/yyyy HH:mm")</dd>
+
+                        <dt class="col-sm-4">Assigné à:</dt>
+                        <dd class="col-sm-8">@(Model.AssignedTo?.Name ?? "Non assigné")</dd>
+
+                        @if (Model.Status == BankOpsPlus.Models.IncidentStatus.Resolved)
+                        {
+                            <dt class="col-sm-4">Résolu le:</dt>
+                            <dd class="col-sm-8">@Model.ResolvedAt?.ToString("dd/MM/yyyy HH:mm")</dd>
+
+                            <dt class="col-sm-4">Temps de résolution:</dt>
+                            <dd class="col-sm-8">@Model.ResolutionTimeMinutes minutes</dd>
+                        }
+                    </dl>
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="mb-3">
+                <h5>Description:</h5>
+                <p>@Model.Description</p>
+            </div>
+
+            @if (!string.IsNullOrEmpty(Model.RootCause))
+            {
+                <div class="mb-3">
+                    <h5>Cause Racine:</h5>
+                    <p>@Model.RootCause</p>
+                </div>
+            }
+
+            <div class="d-flex gap-2">
+                <a href="@Url.Action("Edit", new { id = Model.Id })" class="btn btn-warning">Éditer</a>
+                <a href="@Url.Action("Index")" class="btn btn-secondary">Retour à la liste</a>
+            </div>
+        </div>
+    </div>
+</div>

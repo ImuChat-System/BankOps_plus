@@ -1,0 +1,137 @@
+@model IEnumerable<BankOpsPlus.Models.Incident>
+@{
+    ViewData["Title"] = "Dashboard - BankOps+";
+}
+
+<div class="container mt-4">
+    <h1 class="mb-4">📊 Dashboard - Supervision Bancaire</h1>
+
+    <!-- KPIs Row -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card text-white bg-warning">
+                <div class="card-body">
+                    <h5 class="card-title">Incidents Ouverts</h5>
+                    <h2>@ViewBag.OpenIncidentsCount</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-danger">
+                <div class="card-body">
+                    <h5 class="card-title">Incidents Critiques</h5>
+                    <h2>@ViewBag.CriticalIncidentsCount</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-info">
+                <div class="card-body">
+                    <h5 class="card-title">MTTR (minutes)</h5>
+                    <h2>@ViewBag.MTTR</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-dark">
+                <div class="card-body">
+                    <h5 class="card-title">Jobs en Erreur</h5>
+                    <h2>@ViewBag.JobsInErrorCount</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Jobs in Error -->
+    @if (ViewBag.JobsInErrorCount > 0)
+    {
+        <div class="alert alert-danger" role="alert">
+            <h5><strong>⚠️ Jobs en Erreur</strong></h5>
+            <ul class="mb-0">
+                @foreach (var job in ViewBag.JobsInError)
+                {
+                    <li><strong>@job.Application.Name</strong>: @job.Name</li>
+                }
+            </ul>
+        </div>
+    }
+
+    <!-- Recent Incidents -->
+    <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">Incidents Récents</h5>
+            <a href="@Url.Action("Index", "Incident")" class="btn btn-sm btn-primary">Voir tous les incidents</a>
+        </div>
+        <div class="card-body">
+            @if (ViewBag.RecentIncidents != null && ViewBag.RecentIncidents.Count > 0)
+            {
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Référence</th>
+                            <th>Application</th>
+                            <th>Gravité</th>
+                            <th>Statut</th>
+                            <th>Description</th>
+                            <th>Créé le</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var incident in ViewBag.RecentIncidents)
+                        {
+                            <tr>
+                                <td>
+                                    <a href="@Url.Action("Details", "Incident", new { id = incident.Id })">
+                                        @incident.Reference
+                                    </a>
+                                </td>
+                                <td>@incident.Application.Name</td>
+                                <td>
+                                    @if (incident.Severity == BankOpsPlus.Models.IncidentSeverity.Critical)
+                                    {
+                                        <span class="badge bg-danger">@incident.Severity</span>
+                                    }
+                                    else if (incident.Severity == BankOpsPlus.Models.IncidentSeverity.Medium)
+                                    {
+                                        <span class="badge bg-warning text-dark">@incident.Severity</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-info">@incident.Severity</span>
+                                    }
+                                </td>
+                                <td>
+                                    @if (incident.Status == BankOpsPlus.Models.IncidentStatus.Open)
+                                    {
+                                        <span class="badge bg-warning text-dark">@incident.Status</span>
+                                    }
+                                    else if (incident.Status == BankOpsPlus.Models.IncidentStatus.InProgress)
+                                    {
+                                        <span class="badge bg-primary">@incident.Status</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-success">@incident.Status</span>
+                                    }
+                                </td>
+                                <td>@incident.Description.Substring(0, Math.Min(50, incident.Description.Length))...</td>
+                                <td>@incident.CreatedAt.ToString("dd/MM/yyyy HH:mm")</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <p class="text-muted">Aucun incident récent.</p>
+            }
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="mt-4">
+        <a href="@Url.Action("Create", "Incident")" class="btn btn-success btn-lg">
+            ➕ Créer un Incident
+        </a>
+    </div>
+</div>
