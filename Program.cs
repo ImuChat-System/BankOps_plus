@@ -16,11 +16,13 @@ builder.Services.AddDbContext<BankOpsDbContext>(options =>
 builder.Services.AddScoped<IIncidentRepository, IncidentRepository>();
 builder.Services.AddScoped<IJobRepository, JobRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IApplicationRepository, ApplicationRepository>();
 
 // Register Services
 builder.Services.AddScoped<IDashboardService, DashboardService>();
 builder.Services.AddScoped<IIncidentService, IncidentService>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IApplicationService, ApplicationService>();
 
 // Add session support for authentication
 builder.Services.AddSession(options =>

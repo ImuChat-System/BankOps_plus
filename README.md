@@ -1,4 +1,4 @@
-# BankOps+ - Application de Supervision Bancaire
+# BankOps+ -> Application de Supervision Bancaire
 
 ## Contexte
 
@@ -40,13 +40,13 @@ Ce projet démontre ma capacité à maintenir et faire évoluer des applications
 
 ## Fonctionnalités
 
-### 📊 Dashboard
+### Dashboard
 
 - **KPIs en temps réel** : Incidents ouverts, incidents critiques, MTTR, jobs en erreur
 - **Alertes automatiques** pour jobs en erreur
 - **Liste des incidents récents** avec filtre rapide
 
-### 🚨 Gestion des Incidents
+### Gestion des Incidents
 
 - **CRUD complet** (Create, Read, Update)
 - **Filtrage** par statut (Open, InProgress, Resolved) et gravité (Low, Medium, Critical)
@@ -54,12 +54,12 @@ Ce projet démontre ma capacité à maintenir et faire évoluer des applications
 - **Liaison** avec applications et jobs
 - **Assignment** d'incidents aux utilisateurs
 
-### ⚙️ Gestion des Applications
+### Gestion des Applications
 
 - Catalogue d'applications métiers par environnement (DEV, REC, PROD)
 - Responsable, statut global
 
-### 🔧 Gestion des Jobs
+### Gestion des Jobs
 
 - Suivi des traitements (batchs)
 - Fréquence d'exécution (Daily, Weekly, Monthly)
@@ -183,28 +183,28 @@ BankOps_plus/
 
 ## Points Techniques Démontrés
 
-### ✅ Maintenance & Qualité
+### Ok Maintenance & Qualité
 
 - Code lisible et bien organisé
 - Séparation des responsabilités (MVC pattern)
 - Méthodes courtes et explicites
 - Noms de variables/méthodes descriptifs
 
-### ✅ Gestion des Données
+### Ok Gestion des Données
 
 - Modèles avec annotations et validation
 - Relations Entity Framework (1-N, optionnelles)
 - Seed data pour démarrage rapide
 - Gestion des états et transitions
 
-### ✅ Architecture
+### Ok Architecture
 
 - Pattern Repository (prévu)
 - Pattern Service Layer (prévu)
 - Dependency Injection
 - Configuration externalisée (appsettings.json)
 
-### ✅ Frontend
+### Ok Frontend
 
 - Interface responsive (Bootstrap 5)
 - Badge de statut colorés
@@ -229,7 +229,7 @@ BankOps_plus/
 
 ## Auteur
 
-Nathan Imogo  
+Nathan Imogo Imogo  
 Développeur .NET Junior  
 Projet créé pour démontrer mes compétences en maintenance et évolution d'applications bancaires.
 
