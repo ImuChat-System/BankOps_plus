@@ -1,4 +1,4 @@
-# BankOps+ -> Application de Supervision Bancaire
+# BankOps+ | Application de Supervision Bancaire
 
 ## Contexte
 
@@ -84,7 +84,7 @@ Ce projet démontre ma capacité à maintenir et faire évoluer des applications
 1. **Cloner le repository**
 
    ```bash
-   git clone <votre-repo-url>
+   git clone https://github.com/ImuChat-System/BankOps_plus
    cd BankOps_plus
    ```
 
@@ -142,11 +142,10 @@ BankOps_plus/
 ├── Data/                 # DbContext et migrations
 │   ├── BankOpsDbContext.cs
 │   └── Scripts/          # Scripts SQL
-├── Services/             # Logique métier (à venir)
-├── Repositories/         # Accès données (à venir)
+├── Services/             # Logique métier
+├── Repositories/         # Accès données
 ├── wwwroot/              # Assets statiques (CSS, JS)
 ├── docs/                 # Documentation technique (à venir)
-├── _docs/                # Documentation originale du projet
 └── README.md
 ```
 
@@ -183,28 +182,28 @@ BankOps_plus/
 
 ## Points Techniques Démontrés
 
-### Ok Maintenance & Qualité
+### Maintenance & Qualité
 
 - Code lisible et bien organisé
 - Séparation des responsabilités (MVC pattern)
 - Méthodes courtes et explicites
 - Noms de variables/méthodes descriptifs
 
-### Ok Gestion des Données
+### Gestion des Données
 
 - Modèles avec annotations et validation
 - Relations Entity Framework (1-N, optionnelles)
 - Seed data pour démarrage rapide
 - Gestion des états et transitions
 
-### Ok Architecture
+### Architecture
 
 - Pattern Repository (prévu)
 - Pattern Service Layer (prévu)
 - Dependency Injection
 - Configuration externalisée (appsettings.json)
 
-### Ok Frontend
+### Frontend
 
 - Interface responsive (Bootstrap 5)
 - Badge de statut colorés
@@ -213,17 +212,9 @@ BankOps_plus/
 
 ---
 
-## Présentation pour Recruteur (EKXEL)
+## Présentation pour Recruteur
 
-> *J'ai développé **BankOps+**, une application .NET de supervision bancaire reproduisant un outil interne de DSI, avec gestion d'incidents, monitoring de traitements, et calcul de KPIs (MTTR). Ce projet illustre ma capacité à maintenir et faire évoluer des applications dans un contexte finance, avec une architecture propre, une gestion d'erreurs centralisée, et une documentation complète.*
-
-**Ce qui fait la différence** :
-
-1. **Architecture réaliste** : Pattern MVC avec séparation claire des responsabilités
-2. **Contexte métier** : 100% aligné avec la finance (supervision, incidents, jobs)
-3. **Qualité** : Code maintenable, commenté, avec gestion d'erreurs
-4. **Documentation** : README complet + docs techniques à venir
-5. **Interopérabilité** : Prêt pour VBA Excel et PHP legacy (phase 4)
+> *Je suis entrain de développer **BankOps+**, une application .NET de supervision bancaire reproduisant un outil interne de DSI, avec gestion d'incidents, monitoring de traitements, et calcul de KPIs (MTTR). Ce projet illustre ma capacité progressive à maintenir et faire évoluer des applications dans un contexte finance, avec une architecture propre, une gestion d'erreurs centralisée, et une documentation complète.*
 
 ---
 
