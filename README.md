@@ -65,7 +65,7 @@ Ce projet démontre ma capacité à maintenir et faire évoluer des applications
 - Fréquence d'exécution (Daily, Weekly, Monthly)
 - Historique d'exécution et détection d'erreurs
 
-### 👥 Gestion des Utilisateurs
+### Gestion des Utilisateurs
 
 - Rôles : **Admin**, **Support**, **ReadOnly**
 - Authentification sécurisée avec BCrypt
