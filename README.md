@@ -142,11 +142,10 @@ BankOps_plus/
 ├── Data/                 # DbContext et migrations
 │   ├── BankOpsDbContext.cs
 │   └── Scripts/          # Scripts SQL
-├── Services/             # Logique métier (à venir)
-├── Repositories/         # Accès données (à venir)
+├── Services/             # Logique métier
+├── Repositories/         # Accès données
 ├── wwwroot/              # Assets statiques (CSS, JS)
 ├── docs/                 # Documentation technique (à venir)
-├── _docs/                # Documentation originale du projet
 └── README.md
 ```
 
