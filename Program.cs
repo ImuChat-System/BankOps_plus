@@ -1,5 +1,7 @@
-using Microsoft.EntityFrameworkCore;
 using BankOpsPlus.Data;
+using BankOpsPlus.Repositories;
+using BankOpsPlus.Services;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +11,14 @@ builder.Services.AddControllersWithViews();
 // Configure DbContext with SQLite
 builder.Services.AddDbContext<BankOpsDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("BankOpsDb")));
+
+// Register Repositories
+builder.Services.AddScoped<IIncidentRepository, IncidentRepository>();
+builder.Services.AddScoped<IJobRepository, JobRepository>();
+
+// Register Services
+builder.Services.AddScoped<IDashboardService, DashboardService>();
+builder.Services.AddScoped<IIncidentService, IncidentService>();
 
 // Add session support for authentication
 builder.Services.AddSession(options =>

@@ -1,46 +1,43 @@
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using BankOpsPlus.Data;
 using BankOpsPlus.Models;
+using BankOpsPlus.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BankOpsPlus.Controllers;
 
 public class IncidentController : Controller
 {
-    private readonly BankOpsDbContext _context;
+    private readonly IIncidentService _incidentService;
+    private readonly BankOpsDbContext _context; // Still needed for dropdowns
 
-    public IncidentController(BankOpsDbContext context)
+    public IncidentController(IIncidentService incidentService, BankOpsDbContext context)
     {
+        _incidentService = incidentService;
         _context = context;
     }
 
     // GET: Incident
     public async Task<IActionResult> Index(string? status, string? severity)
     {
-        var incidents = _context.Incidents
-            .Include(i => i.Application)
-            .Include(i => i.Job)
-            .Include(i => i.CreatedBy)
-            .Include(i => i.AssignedTo)
-            .AsQueryable();
+        IncidentStatus? statusEnum = null;
+        IncidentSeverity? severityEnum = null;
 
-        // Apply filters
-        if (!string.IsNullOrEmpty(status) && Enum.TryParse<IncidentStatus>(status, out var statusEnum))
+        if (!string.IsNullOrEmpty(status) && Enum.TryParse<IncidentStatus>(status, out var parsedStatus))
         {
-            incidents = incidents.Where(i => i.Status == statusEnum);
+            statusEnum = parsedStatus;
         }
 
-        if (!string.IsNullOrEmpty(severity) && Enum.TryParse<IncidentSeverity>(severity, out var severityEnum))
+        if (!string.IsNullOrEmpty(severity) && Enum.TryParse<IncidentSeverity>(severity, out var parsedSeverity))
         {
-            incidents = incidents.Where(i => i.Severity == severityEnum);
+            severityEnum = parsedSeverity;
         }
 
-        var result = await incidents.OrderByDescending(i => i.CreatedAt).ToListAsync();
-        
+        var incidents = await _incidentService.GetIncidentsByFiltersAsync(statusEnum, severityEnum);
+
         ViewBag.CurrentStatus = status;
         ViewBag.CurrentSeverity = severity;
-        
-        return View(result);
+
+        return View(incidents);
     }
 
     // GET: Incident/Details/5
@@ -51,12 +48,7 @@ public class IncidentController : Controller
             return NotFound();
         }
 
-        var incident = await _context.Incidents
-            .Include(i => i.Application)
-            .Include(i => i.Job)
-            .Include(i => i.CreatedBy)
-            .Include(i => i.AssignedTo)
-            .FirstOrDefaultAsync(m => m.Id == id);
+        var incident = await _incidentService.GetIncidentByIdAsync(id.Value);
 
         if (incident == null)
         {
@@ -80,17 +72,10 @@ public class IncidentController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create([Bind("ApplicationId,JobId,Severity,Description,AssignedToUserId")] Incident incident)
     {
-        // Generate reference
-        var incidentCount = await _context.Incidents.CountAsync();
-        incident.Reference = $"INC-{DateTime.UtcNow.Year}-{(incidentCount + 1):D3}";
-        
-        // Set default values
-        incident.Status = IncidentStatus.Open;
-        incident.CreatedAt = DateTime.UtcNow;
-        incident.CreatedByUserId = 1; // Default to admin for now (should be from session in production)
+        // TODO: Get current user ID from session instead of hardcoded value
+        const int currentUserId = 1; // Admin user for now
 
-        _context.Add(incident);
-        await _context.SaveChangesAsync();
+        await _incidentService.CreateIncidentAsync(incident, currentUserId);
         return RedirectToAction(nameof(Index));
     }
 
@@ -102,7 +87,7 @@ public class IncidentController : Controller
             return NotFound();
         }
 
-        var incident = await _context.Incidents.FindAsync(id);
+        var incident = await _incidentService.GetIncidentByIdAsync(id.Value);
         if (incident == null)
         {
             return NotFound();
@@ -111,7 +96,7 @@ public class IncidentController : Controller
         ViewBag.Applications = _context.Applications.ToList();
         ViewBag.Jobs = _context.Jobs.ToList();
         ViewBag.Users = _context.Users.Where(u => u.IsActive).ToList();
-        
+
         return View(incident);
     }
 
@@ -125,35 +110,15 @@ public class IncidentController : Controller
             return NotFound();
         }
 
-        // If status changed to Resolved, calculate resolution time
-        if (incident.Status == IncidentStatus.Resolved && !incident.ResolvedAt.HasValue)
-        {
-            incident.ResolvedAt = DateTime.UtcNow;
-            incident.ResolutionTimeMinutes = (int)(incident.ResolvedAt.Value - incident.CreatedAt).TotalMinutes;
-        }
-
         try
         {
-            _context.Update(incident);
-            await _context.SaveChangesAsync();
+            await _incidentService.UpdateIncidentAsync(incident);
         }
-        catch (DbUpdateConcurrencyException)
+        catch (ArgumentException)
         {
-            if (!IncidentExists(incident.Id))
-            {
-                return NotFound();
-            }
-            else
-            {
-                throw;
-            }
+            return NotFound();
         }
-        
-        return RedirectToAction(nameof(Index));
-    }
 
-    private bool IncidentExists(int id)
-    {
-        return _context.Incidents.Any(e => e.Id == id);
+        return RedirectToAction(nameof(Index));
     }
 }
